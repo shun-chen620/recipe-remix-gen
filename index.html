@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レシピリミックスジェネレーター</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header>
+            <h1>🍳 レシピリミックスジェネレーター</h1>
+            <p class="subtitle">冷蔵庫の残り物をミシュランスター級の料理に変身！</p>
+        </header>
+
+        <!-- 入力セクション -->
+        <div class="input-section">
+            <div class="ingredient-inputs">
+                <div class="input-group">
+                    <label for="ingredient1">食材1</label>
+                    <input type="text" id="ingredient1" placeholder="例: 鶏肉">
+                </div>
+                <div class="input-group">
+                    <label for="ingredient2">食材2</label>
+                    <input type="text" id="ingredient2" placeholder="例: トマト">
+                </div>
+                <div class="input-group">
+                    <label for="ingredient3">食材3</label>
+                    <input type="text" id="ingredient3" placeholder="例: バジル">
+                </div>
+            </div>
+            <button id="generateBtn" onclick="generateRecipe()">
+                <span class="btn-text">レシピを生成</span>
+                <span class="btn-loader" style="display: none;">🔄 生成中...</span>
+            </button>
+            <button id="randomBtn" onclick="randomizeIngredients()" class="secondary-btn">
+                🎲 ランダムな食材を選ぶ
+            </button>
+        </div>
+
+        <!-- レシピ表示セクション -->
+        <div id="recipeCard" class="recipe-card hidden">
+            <h2 id="recipeTitle"></h2>
+            <div class="recipe-meta">
+                <span id="cookingTime"></span>
+            </div>
+            
+            <div class="recipe-section">
+                <h3>📝 材料</h3>
+                <ul id="ingredientsList"></ul>
+            </div>
+            
+            <div class="recipe-section">
+                <h3>👨‍🍳 作り方</h3>
+                <ol id="instructionsList"></ol>
+            </div>
+            
+            <div class="recipe-section" id="servingSection">
+                <h3>🍽️ 盛り付けのコツ</h3>
+                <p id="servingSuggestions"></p>
+            </div>
+
+            <div class="recipe-actions">
+                <button onclick="printRecipe()" class="action-btn">🖨️ 印刷</button>
+                <button onclick="saveRecipe()" class="action-btn">💾 保存</button>
+                <button onclick="shareRecipe()" class="action-btn">📤 共有</button>
+            </div>
+        </div>
+
+        <!-- エラーメッセージ -->
+        <div id="errorMessage" class="error-message hidden"></div>
+
+        <!-- レシピ履歴 -->
+        <div id="historySection" class="history-section hidden">
+            <h3>📚 過去のレシピ</h3>
+            <div id="historyList"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>HAL Event Week プロジェクト 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
