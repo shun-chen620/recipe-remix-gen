@@ -1,6 +1,35 @@
 // Replace your actual n8n webhook URL here
 const WEBHOOK_URL = 'http://localhost:5678/webhook/recipe-generator';
 
+// Theme Management
+function initTheme() {
+    // Check for saved theme preference or default to 'light'
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+    setTheme(theme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+}
+
+function setTheme(theme) {
+    document.body.classList.remove('light-theme', 'dark-theme');
+    document.body.classList.add(`${theme}-theme`);
+    localStorage.setItem('theme', theme);
+}
+
+function toggleTheme() {
+    const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+}
+
 // Common ingredient list
 const commonIngredients = [
     '鶏肉', 'サーモン', '牛肉', '豆腐', '卵',
@@ -81,7 +110,7 @@ function displayRecipe(recipe) {
     
     // Set cooking time
     if (recipe.cookingTime) {
-        document.getElementById('cookingTime').textContent = `⏱️ 調理時間: ${recipe.cookingTime}`;
+        document.getElementById('cookingTime').textContent = `調理時間: ${recipe.cookingTime}`;
     }
     
     // Set ingredients
@@ -227,6 +256,15 @@ function shareRecipe() {
 
 // Allow submission with Enter key
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize theme
+    initTheme();
+    
+    // Set up theme toggle button
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+    
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => {
         input.addEventListener('keypress', (e) => {
