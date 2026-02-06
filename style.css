@@ -25,10 +25,16 @@
     --input-bg: rgba(255, 255, 255, 0.9);
     --input-border: rgba(203, 213, 225, 0.5);
     --input-focus-border: var(--accent-primary);
+    --input-focus-shadow: rgba(59, 130, 246, 0.1);
     
     --button-text: #ffffff;
     --error-bg: #ef4444;
     --error-text: #ffffff;
+    
+    --button-shadow: rgba(59, 130, 246, 0.3);
+    --button-shadow-hover: rgba(59, 130, 246, 0.4);
+    --secondary-button-shadow: rgba(139, 92, 246, 0.3);
+    --secondary-button-shadow-hover: rgba(139, 92, 246, 0.4);
     
     /* Spacing */
     --space-xs: 0.5rem;
@@ -72,10 +78,16 @@ body.dark-theme {
     --input-bg: rgba(30, 41, 59, 0.6);
     --input-border: rgba(148, 163, 184, 0.2);
     --input-focus-border: var(--accent-primary);
+    --input-focus-shadow: rgba(6, 182, 212, 0.1);
     
     --button-text: #ffffff;
     --error-bg: #dc2626;
     --error-text: #ffffff;
+    
+    --button-shadow: rgba(6, 182, 212, 0.3);
+    --button-shadow-hover: rgba(6, 182, 212, 0.4);
+    --secondary-button-shadow: rgba(139, 92, 246, 0.3);
+    --secondary-button-shadow-hover: rgba(139, 92, 246, 0.4);
 }
 
 /* ============================================
@@ -187,6 +199,17 @@ header h1 {
     transition: all var(--transition-base);
 }
 
+/* Default state - show sun icon for light theme */
+.theme-toggle .sun-icon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle .moon-icon {
+    opacity: 0;
+    transform: rotate(180deg) scale(0);
+}
+
 body.light-theme .theme-toggle .sun-icon {
     opacity: 1;
     transform: rotate(0deg) scale(1);
@@ -280,7 +303,7 @@ body.dark-theme .theme-toggle .moon-icon {
 .input-group input:focus {
     outline: none;
     border-color: var(--input-focus-border);
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 4px var(--input-focus-shadow);
     background: var(--bg-secondary);
 }
 
@@ -309,7 +332,7 @@ body.dark-theme .theme-toggle .moon-icon {
     align-items: center;
     justify-content: center;
     gap: var(--space-sm);
-    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 16px var(--button-shadow);
     position: relative;
     overflow: hidden;
 }
@@ -334,17 +357,17 @@ body.dark-theme .theme-toggle .moon-icon {
 .secondary-btn {
     background: linear-gradient(135deg, var(--accent-secondary) 0%, #ec4899 100%);
     margin-top: var(--space-sm);
-    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 4px 16px var(--secondary-button-shadow);
 }
 
 #generateBtn:hover,
 .secondary-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 6px 24px var(--button-shadow-hover);
 }
 
 .secondary-btn:hover {
-    box-shadow: 0 6px 24px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 6px 24px var(--secondary-button-shadow-hover);
 }
 
 #generateBtn:active,
@@ -502,7 +525,7 @@ body.dark-theme .theme-toggle .moon-icon {
     background: var(--accent-primary);
     color: var(--button-text);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px var(--button-shadow);
 }
 
 .action-btn:active {

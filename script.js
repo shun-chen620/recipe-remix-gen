@@ -3,12 +3,9 @@ const WEBHOOK_URL = 'http://localhost:5678/webhook/recipe-generator';
 
 // Theme Management
 function initTheme() {
-    // Check for saved theme preference or default to 'light'
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
-    setTheme(theme);
+    // Transfer theme from html to body if needed
+    const htmlTheme = document.documentElement.classList.contains('dark-theme') ? 'dark' : 'light';
+    setTheme(htmlTheme);
     
     // Listen for system theme changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
@@ -21,6 +18,8 @@ function initTheme() {
 function setTheme(theme) {
     document.body.classList.remove('light-theme', 'dark-theme');
     document.body.classList.add(`${theme}-theme`);
+    document.documentElement.classList.remove('light-theme', 'dark-theme');
+    document.documentElement.classList.add(`${theme}-theme`);
     localStorage.setItem('theme', theme);
 }
 

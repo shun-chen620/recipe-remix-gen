@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>レシピリミックスジェネレーター</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        // Prevent theme flash by setting theme before page renders
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            document.documentElement.classList.add(`${theme}-theme`);
+        })();
+    </script>
 </head>
-<body class="light-theme">
+<body>
     <div class="container">
         <!-- ヘッダー -->
         <header>
