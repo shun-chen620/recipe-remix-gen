@@ -5,66 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>レシピリミックスジェネレーター</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        // Prevent theme flash by setting theme before page renders
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+            document.documentElement.classList.add(`${theme}-theme`);
+        })();
+    </script>
 </head>
 <body>
     <div class="container">
         <!-- ヘッダー -->
         <header>
-            <h1>🍳 レシピリミックスジェネレーター</h1>
-            <p class="subtitle">冷蔵庫の残り物をミシュランスター級の料理に変身！</p>
+            <div class="header-content">
+                <div class="header-title-section">
+                    <svg class="header-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.1 13.34l2.83-2.83L3.91 3.5a4.008 4.008 0 0 0 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" fill="currentColor"/>
+                    </svg>
+                    <div>
+                        <h1>レシピリミックスジェネレーター</h1>
+                        <p class="subtitle">冷蔵庫の残り物をミシュランスター級の料理に変身！</p>
+                    </div>
+                </div>
+                <button id="themeToggle" class="theme-toggle" aria-label="テーマを切り替え">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="5" fill="currentColor"/>
+                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1m17.66-6.34l-4.24 4.24m-4.84 4.84L4.34 19.66m15.32 0l-4.24-4.24m-4.84-4.84L4.34 4.34" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
         </header>
 
         <!-- 入力セクション -->
-        <div class="input-section">
+        <div class="input-section glass-card">
             <div class="ingredient-inputs">
                 <div class="input-group">
-                    <label for="ingredient1">食材1</label>
+                    <label for="ingredient1">
+                        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        食材1
+                    </label>
                     <input type="text" id="ingredient1" placeholder="例: 鶏肉">
                 </div>
                 <div class="input-group">
-                    <label for="ingredient2">食材2</label>
+                    <label for="ingredient2">
+                        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        食材2
+                    </label>
                     <input type="text" id="ingredient2" placeholder="例: トマト">
                 </div>
                 <div class="input-group">
-                    <label for="ingredient3">食材3</label>
+                    <label for="ingredient3">
+                        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        食材3
+                    </label>
                     <input type="text" id="ingredient3" placeholder="例: バジル">
                 </div>
             </div>
             <button id="generateBtn" onclick="generateRecipe()">
+                <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" fill="currentColor"/>
+                </svg>
                 <span class="btn-text">レシピを生成</span>
-                <span class="btn-loader" style="display: none;">🔄 生成中...</span>
+                <span class="btn-loader" style="display: none;">
+                    <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" opacity="0.25"/>
+                        <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    生成中...
+                </span>
             </button>
             <button id="randomBtn" onclick="randomizeIngredients()" class="secondary-btn">
-                🎲 ランダムな食材を選ぶ
+                <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+                ランダムな食材を選ぶ
             </button>
         </div>
 
         <!-- レシピ表示セクション -->
-        <div id="recipeCard" class="recipe-card hidden">
+        <div id="recipeCard" class="recipe-card glass-card hidden">
             <h2 id="recipeTitle"></h2>
             <div class="recipe-meta">
+                <svg class="meta-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
                 <span id="cookingTime"></span>
             </div>
             
             <div class="recipe-section">
-                <h3>📝 材料</h3>
+                <h3>
+                    <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m-6 9l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    材料
+                </h3>
                 <ul id="ingredientsList"></ul>
             </div>
             
             <div class="recipe-section">
-                <h3>👨‍🍳 作り方</h3>
+                <h3>
+                    <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/>
+                    </svg>
+                    作り方
+                </h3>
                 <ol id="instructionsList"></ol>
             </div>
             
             <div class="recipe-section" id="servingSection">
-                <h3>🍽️ 盛り付けのコツ</h3>
+                <h3>
+                    <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="9" cy="9" r="1" fill="currentColor"/>
+                        <circle cx="15" cy="9" r="1" fill="currentColor"/>
+                    </svg>
+                    盛り付けのコツ
+                </h3>
                 <p id="servingSuggestions"></p>
             </div>
 
             <div class="recipe-actions">
-                <button onclick="printRecipe()" class="action-btn">🖨️ 印刷</button>
-                <button onclick="saveRecipe()" class="action-btn">💾 保存</button>
-                <button onclick="shareRecipe()" class="action-btn">📤 共有</button>
+                <button onclick="printRecipe()" class="action-btn">
+                    <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <rect x="6" y="14" width="12" height="8" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                    印刷
+                </button>
+                <button onclick="saveRecipe()" class="action-btn">
+                    <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <path d="M17 21v-8H7v8M7 3v5h8" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                    保存
+                </button>
+                <button onclick="shareRecipe()" class="action-btn">
+                    <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="18" cy="5" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <circle cx="6" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <path d="M8.59 13.51l6.83 3.98m-.01-10.98l-6.82 3.98" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    共有
+                </button>
             </div>
         </div>
 
@@ -72,8 +171,13 @@
         <div id="errorMessage" class="error-message hidden"></div>
 
         <!-- レシピ履歴 -->
-        <div id="historySection" class="history-section hidden">
-            <h3>📚 過去のレシピ</h3>
+        <div id="historySection" class="history-section glass-card hidden">
+            <h3>
+                <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                過去のレシピ
+            </h3>
             <div id="historyList"></div>
         </div>
     </div>
